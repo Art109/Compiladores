@@ -1,20 +1,20 @@
 %%
-
 %standalone
 %line
 %column
 %class At4
 
-letra = [A-Za-z]
-digito = [0-9]
-digitos = {digito}{digito}*
-ident = {letra}({letra}|{digito})*
-fracao ="\."{digitos}|ε
-exponencial =("E"("+"|"-")?{digitos})?
-numReal = {digitos}{fracao}{exponencial}
+
+numero = [0-9]
+numeros = {numero}{numero}*
+numerosNegativo = "-"{numeros}
+numeroFlutuante = ({numeros}|{numerosNegativo})"."({numeros})
+fracao = "/"({numeros}|{numerosNegativo}|{numeroFlutuante}|{numeroExponencial})|ε
+numeroExponencial = ("E"("+"|"-")?({numeros}|{numeroFlutuante}))?
+numeroReal = ({numeros}|{numerosNegativo}|{numeroFlutuante}){fracao}*{numeroExponencial}*
+
 
 %%
 
-{numReal} {System.out.println("<num: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
+{numeroReal} {System.out.println("<num: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
 
-{ident} {System.out.println("<ident: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
