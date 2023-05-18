@@ -45,4 +45,8 @@ while = {KW_WHILE}"("{expressaoLogica}")"{bloco}
 {decVarUnica} {System.out.println("<varDec "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
 {msgTela} {System.out.println("<msgTela: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
 {while} {System.out.println("<while: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
+<<<<<<< HEAD
 
+=======
+{bloco} {System.out.println("<bloco: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf

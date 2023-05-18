@@ -59,6 +59,7 @@ class At7 {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
+<<<<<<< HEAD
     "\11\0\1\1\1\2\2\3\1\2\22\0\1\1\1\4"+
     "\6\0\1\5\1\6\6\0\12\7\1\0\1\10\1\11"+
     "\1\12\1\13\2\0\22\14\1\15\7\14\6\0\1\16"+
@@ -66,6 +67,14 @@ class At7 {
     "\2\14\1\27\1\14\1\30\1\31\2\14\1\32\1\33"+
     "\1\34\1\35\1\14\1\36\3\14\1\37\1\0\1\40"+
     "\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+=======
+    "\11\0\1\1\1\2\2\3\1\2\22\0\1\1\17\0"+
+    "\12\4\1\0\1\5\1\6\1\7\3\0\22\10\1\11"+
+    "\7\10\6\0\1\12\1\13\1\14\1\15\1\16\1\17"+
+    "\1\20\1\21\1\22\2\10\1\23\1\10\1\24\1\25"+
+    "\2\10\1\26\1\10\1\27\1\30\5\10\1\31\1\0"+
+    "\1\32\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -92,11 +101,19 @@ class At7 {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
+<<<<<<< HEAD
     "\1\0\10\1\33\0\1\2\5\0\1\2\2\0\1\3"+
     "\25\0\1\4";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[68];
+=======
+    "\1\0\10\1\11\0\1\2\21\0\1\3\4\0\1\3"+
+    "\1\0\1\4\2\0";
+
+  private static int [] zzUnpackAction() {
+    int [] result = new int[46];
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -121,6 +138,7 @@ class At7 {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
+<<<<<<< HEAD
     "\0\0\0\41\0\102\0\143\0\204\0\245\0\306\0\347"+
     "\0\u0108\0\u0129\0\u014a\0\u016b\0\u018c\0\u01ad\0\u01ce\0\u01ef"+
     "\0\u0210\0\u0231\0\u0252\0\u0273\0\u0294\0\u02b5\0\u02d6\0\u02f7"+
@@ -133,6 +151,17 @@ class At7 {
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[68];
+=======
+    "\0\0\0\33\0\66\0\121\0\154\0\207\0\242\0\275"+
+    "\0\330\0\363\0\u010e\0\u0129\0\u0144\0\u015f\0\u017a\0\u0195"+
+    "\0\u01b0\0\u01cb\0\u01b0\0\u01e6\0\u0201\0\u021c\0\u0237\0\u0252"+
+    "\0\u026d\0\u0288\0\u02a3\0\u02be\0\u02d9\0\u02f4\0\u030f\0\u032a"+
+    "\0\u0345\0\u0360\0\u037b\0\u0396\0\33\0\u03b1\0\u03cc\0\u03e7"+
+    "\0\u0402\0\u0402\0\u041d\0\u041d\0\u0438\0\u0453";
+
+  private static int [] zzUnpackRowMap() {
+    int [] result = new int[46];
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -155,6 +184,7 @@ class At7 {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
+<<<<<<< HEAD
     "\15\2\1\3\1\2\1\4\1\5\1\6\1\2\1\7"+
     "\2\2\1\10\7\2\1\11\2\2\75\0\1\12\35\0"+
     "\1\13\34\0\1\14\3\0\1\15\40\0\1\16\36\0"+
@@ -197,6 +227,29 @@ class At7 {
 
   private static int [] zzUnpacktrans() {
     int [] result = new int[2112];
+=======
+    "\11\2\1\3\1\2\1\4\1\5\1\6\1\2\1\7"+
+    "\2\2\1\10\6\2\1\11\1\2\62\0\1\12\30\0"+
+    "\1\13\26\0\1\14\3\0\1\15\32\0\1\16\30\0"+
+    "\1\17\33\0\1\20\6\0\2\21\1\22\1\0\26\21"+
+    "\1\23\26\0\1\24\31\0\1\25\17\0\1\26\50\0"+
+    "\1\27\32\0\1\30\27\0\1\31\34\0\1\32\3\0"+
+    "\3\21\1\0\26\21\1\23\2\21\1\22\1\0\27\21"+
+    "\22\0\1\33\33\0\1\34\35\0\1\32\33\0\1\35"+
+    "\16\0\1\36\31\0\1\20\21\0\2\32\5\0\21\37"+
+    "\26\0\1\40\24\0\1\41\15\0\2\35\3\0\1\42"+
+    "\47\0\1\43\10\0\2\44\1\0\1\37\1\45\1\0"+
+    "\1\46\21\37\22\0\1\32\24\0\1\47\26\0\1\50"+
+    "\42\0\1\32\15\0\2\44\4\0\1\46\23\0\1\51"+
+    "\2\46\1\0\1\51\1\52\25\51\24\0\1\32\6\0"+
+    "\1\53\2\50\1\0\1\53\1\54\1\55\24\53\2\51"+
+    "\2\0\1\51\1\52\25\51\2\53\1\35\1\0\1\53"+
+    "\1\54\1\55\26\53\1\35\1\0\1\53\1\54\1\56"+
+    "\25\53\2\50\1\0\1\53\1\54\1\56\24\53";
+
+  private static int [] zzUnpacktrans() {
+    int [] result = new int[1134];
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -239,11 +292,19 @@ class At7 {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
+<<<<<<< HEAD
     "\1\0\1\11\7\1\33\0\1\11\5\0\1\1\2\0"+
     "\1\1\25\0\1\1";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[68];
+=======
+    "\1\0\1\11\7\1\11\0\1\1\21\0\1\11\4\0"+
+    "\1\1\1\0\1\1\2\0";
+
+  private static int [] zzUnpackAttribute() {
+    int [] result = new int[46];
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -737,17 +798,29 @@ class At7 {
           // fall through
           case 5: break;
           case 2:
+<<<<<<< HEAD
             { System.out.println("<varDec "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+=======
+            { System.out.println("<bloco: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
             }
           // fall through
           case 6: break;
           case 3:
+<<<<<<< HEAD
             { System.out.println("<msgTela: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+=======
+            { System.out.println("<varDec "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
             }
           // fall through
           case 7: break;
           case 4:
+<<<<<<< HEAD
             { System.out.println("<while: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+=======
+            { System.out.println("<msgTela: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" );
+>>>>>>> 62a1460a6cbe1263baa4d2318d90c216ef31cbcf
             }
           // fall through
           case 8: break;
