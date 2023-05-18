@@ -1,0 +1,33 @@
+package parser;
+import java_cup.runtime.*;
+
+/* TERMINAIS */
+terminal PTVIRG, MAIS, MENOS, INTEIRO, MULT, DIV, MOD; 
+terminal ABRE_PARENT, FECHA_PARENT, COMENTARIO;
+
+/* NÃO TERMINAIS */
+non terminal expr_list, expr_ptv, expr, expr_parent;
+non terminal opAdd, opProd ;
+
+expr_list ::=  expr_list expr_ptv
+              |  expr_ptv
+              |  COMENTARIO;
+
+expr_ptv ::=  expr PTVIRG
+            | expr_parent PTVIRG;
+
+expr_parent ::= ABRE_PARENT expr FECHA_PARENT
+                ;
+
+expr ::=  INTEIRO opAdd expr
+	| INTEIRO opProd expr_parent
+        | expr_parent opAdd expr
+	| INTEIRO;				
+
+opAdd  ::= MAIS 
+	|  MENOS;
+
+opProd ::= MULT
+        |  DIV
+	|  MOD
+        | INTEIRO;

@@ -2,7 +2,7 @@
 %standalone
 %line
 %column
-%class At5
+%class At6
 
 KW_IF = "if"
 KW_WHILE = "while"
@@ -21,7 +21,7 @@ letra = [A-Za-z]
 numero = [0-9]
 numeros = {numero}{numero}*
 ident = {letra}({letra}|{numero})*
-decVarUnica = {Type}{espaco}{ident}{espaco}"="{espaco}({texto}|{numeros}|letra+)";"
+decVarUnica = {Type}{espaco}{ident}{espaco}"="{espaco}({texto}|{numeros}|letra+)?";"
 
 fimdeLinha = \r|\n|\r\n
 branco = " "
@@ -35,4 +35,5 @@ msgTela = {KW_COUT}({espaco}{concat}{espaco}({texto}|{ident}))+";"
 
 %%
 
+{decVarUnica} {System.out.println("<varDec "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
 {msgTela} {System.out.println("<msgTela: "+ yytext()+ ", linha:"+ yyline + ", coluna:"+ yycolumn +">" ); }
