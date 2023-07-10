@@ -727,6 +727,7 @@ public Scanner(java.io.InputStream in) {
           case 16: break;
           case 8:
             { double aux = Double.parseDouble (yytext());
+        System.out.println("Scanner" + aux);
 	return new Symbol (sym.INTEIRO, new Double(aux));
             }
             // fall through

@@ -1,0 +1,201 @@
+
+import java_cup.runtime.*;
+import erros.ListaErros;
+
+/* CODIGO ADICIONAL */
+parser code
+{:    
+
+    //chamada pelo proprio PARSER quando encontra um error
+	public void syntax_error(Symbol s){    
+        this.defineErro(s.left, s.right);   
+        //s.left retorna a linha
+        //s.right retorna a coluna             
+	}	
+
+    public void unrecovered_syntax_error(Symbol cur_token){
+
+
+    }
+
+    public void defineErro(int linha, int coluna, String texto)
+	{   // Forma de acessar o Analisador Léxico da classe Parser 
+            // É necessário o casting >>> (scanner.Scanner) this.getScanner()
+            //pois o scanner da classe Parser é o do pacote java_cup.runtime.Scanner, 
+            //portanto, é obrigatório fazer este casting aqui e toda vez que quisermos acessar o Yylex 
+            scanner.Scanner sc = (scanner.Scanner) this.getScanner();  
+            sc.defineErro(linha, coluna, texto);
+	}		
+
+    //usado pelo método syntax_error()
+    public void defineErro(int linha, int coluna){   
+            scanner.Scanner sc = (scanner.Scanner) this.getScanner();  
+            sc.defineErro(linha, coluna);
+	}
+
+    //usado para completar o texto daqueles erros adicionados pelo método syntax_error()
+	public void defineErro(String texto){  
+            scanner.Scanner sc = (scanner.Scanner) this.getScanner();  
+            sc.defineErro(texto);
+	}
+:};
+
+/*TERMINAIS */
+terminal MAIOR, MENOR, MAIORIGUAL, MENORIGUAL, IGUALIGUAL, DIF, IDENT;
+terminal PTVIRG, MAIS, MENOS, MULT, DIV, KW_IF, KW_ELSE, KW_DO, KW_WHILE, ABREPAR, FECHAPAR, ABRECHAVE, FECHACHAVE, ABRECOLCH, FECHACOLCH, PONTO;
+terminal Double NUMBER;
+
+/*NÃO TERMINAIS */
+non terminal Double expr_list, expr_ptv, expr, factor, term, designator, condicao, if, op_Relacional, do, while, statement;
+non terminal else;
+
+statement ::= if | do | while;
+
+if ::= 
+            KW_IF ABREPAR condicao FECHAPAR 
+            ABRECHAVE 
+            expr_list 
+            FECHACHAVE 
+            else
+            | error {: parser.defineErro("IF com erro"); :} 
+            ABRECHAVE
+        ;       
+
+else ::= 
+           KW_ELSE ABRECHAVE expr_list FECHACHAVE              
+            | 
+            /*vazio */        
+        ;
+
+do ::=
+            KW_DO ABRECHAVE
+            expr_list
+            FECHACHAVE
+            KW_WHILE ABREPAR condicao FECHAPAR 
+            PTVIRG
+            | error {: parser.defineErro("Do com erro"); :} 
+            PTVIRG
+            ;
+
+while ::=
+            KW_WHILE ABREPAR condicao FECHAPAR
+            ABRECHAVE
+            expr_list
+            FECHACHAVE
+            | error {: parser.defineErro("While com erro"); :}
+            FECHACHAVE
+            ;
+
+
+condicao ::= 
+            expr op_Relacional expr
+            | error {: parser.defineErro("Condicao com erro"); :} 
+            ;
+				
+
+expr_list ::=
+                expr_list expr_ptv
+            | 
+                expr_ptv
+            ;
+
+expr_ptv ::=
+            expr PTVIRG
+            |              
+            error {: parser.defineErro("Expressao incompleta"); :} 
+            //PTVIRG // se colocar ele tentará se recuperar qdo achar um PTVIRG
+        ;
+
+expr  ::=  
+                expr:e MAIS term:t
+                {:
+                    RESULT = new Double(e.doubleValue() + t.doubleValue());
+                :}
+                    
+                | 
+                expr:e MENOS term:t
+                {:
+                    RESULT = e - t;
+                :}
+                | 
+                MENOS term:t
+                {:
+                    RESULT = -t;
+                :}
+                | 
+                term:t
+                {:
+                    RESULT = new Double(t.doubleValue());
+                :}			
+            ;
+		          
+term  ::= 
+                factor:f MULT term:t
+                {:
+                    RESULT = new Double(f.doubleValue() * t.doubleValue());
+                :}
+                | 
+                factor:f DIV term:t
+                {: 
+                    if(t == 0){
+                        parser.defineErro(tleft, tright, "Error: Divisao por zero."); 
+                    }
+                    RESULT = f/t;
+                :}
+                | 
+                factor:f
+                   {:  RESULT = f; :}			
+            ;
+
+factor ::=  
+                NUMBER:n 
+                {: 
+                    RESULT = n; 
+                :}
+                | 
+                ABREPAR expr:e FECHAPAR
+                {:
+                    RESULT = new Double(e.doubleValue());
+                :}
+                |
+                designator:d
+                {:
+                    RESULT = new Double(d.doubleValue());
+                :}
+                ;
+
+designator ::= 
+                designator ABRECOLCH expr FECHACOLCH
+                {:
+                    RESULT = new Double(1.0);
+                :}
+                |
+                designator PONTO IDENT
+                {:
+                    RESULT = new Double(1.0);
+                :}
+                |
+                IDENT:id
+                {:
+                    RESULT = new Double(1.0);
+                :}
+                ;       
+
+op_Relacional ::= 
+                MAIOR
+            | 
+                MENOR
+            |
+                MAIORIGUAL
+            |   
+                MENORIGUAL
+            | 
+                IGUALIGUAL
+            | 
+                DIF
+            | 
+                error 
+                {: 
+                    parser.defineErro("Operador relacional desconhecido");  
+                :}
+            ;

@@ -1,0 +1,183 @@
+package parser;
+import java_cup.runtime.*;
+import Erro.ListaErros;
+
+
+
+/* CODIGO ADICIONAL */
+parser code
+{:   
+    
+    public void syntax_error(Symbol s)
+    {
+        this.defineErro(s.left, s.right);
+    }
+         
+    public void defineErro(int linha, int coluna, String texto)
+    {
+        scanner.Scanner sc = (scanner.Scanner) this.getScanner();
+        sc.defineErro(linha, coluna, texto);
+    }
+
+    public void defineErro(int linha, int coluna)
+    {
+        scanner.Scanner sc = (scanner.Scanner) this.getScanner();
+        sc.defineErro(linha, coluna);
+    }
+
+    public void defineErro(String texto)
+    {
+        scanner.Scanner sc = (scanner.Scanner) this.getScanner();
+        sc.defineErro(texto);
+    }
+
+    
+:};
+
+/*TERMINAIS */
+terminal MAIOR, MENOR, MAIORIGUAL, MENORIGUAL, IGUALIGUAL, DIF;
+terminal PTVIRG, MAIS, MENOS, MOD, MULT, DIV, KW_IF, KW_ELSE , ABREPAR, FECHAPAR, ABRECHAVE, FECHACHAVE, KW_DO, KW_WHILE;
+terminal Double NUMBER;
+
+/*NÃO TERMINAIS */
+non terminal Double expr_list, expr_ptv, expr, factor, term;
+non terminal else, condicao, if, op_Relacional, while, do_while, statement;
+ 
+
+statement ::=
+                expr PTVIRG
+                | if PTVIRG
+                | while PTVIRG
+                | do_while
+                | error PTVIRG;
+
+do_while ::=
+        
+          KW_DO 
+          ABRECHAVE
+            expr_list
+          FECHACHAVE
+          KW_WHILE ABREPAR condicao FECHAPAR
+         |
+            error
+            {: parser.defineErro("Do While incompleto
+         ;   
+
+while ::=
+
+        KW_WHILE ABREPAR condica FECHAPAR 
+        ABRECHAVE
+            expr_list
+        FECHACHAVE
+        |
+         error
+            {: parser.defineErro("Do While incompleto"):}
+        ;
+        
+
+if ::= 
+        KW_IF ABREPAR condicao FECHAPAR ABRECHAVE 
+        expr_list FECHACHAVE 
+        else
+
+        |
+            error
+            {: parser.defineErro("IF incompleto)
+                //att 3
+            :}
+        ;
+        
+
+else ::= 
+        KW_ELSE ABRECHAVE expr_list FECHACHAVE              
+        | 
+            /*vazio */
+        ;
+
+condicao ::= 
+            expr op_Relacional expr
+            |
+            expr:e expr
+            {: parser.defineErro( eleft,eright , "condicao incompleta"):}
+            ;
+				
+
+expr_list ::=
+            expr_list expr_ptv
+            | 
+                expr_ptv
+            ;
+
+expr_ptv ::=
+            expr PTVIRG
+            ;
+
+expr  	 ::=  
+            expr MAIS term		          	
+            | 
+            expr MENOS term
+            |
+            expr MULT term
+            |
+            expr DIV term
+            |
+            expr:e MOD term:t
+                {:
+                    //att3
+                    if( (e.getClass().getSimpleName() != "Integer") || (t.getClass().getSimpleName() != "Integer"))
+                    {
+                        parser.defineErro("Só é possivel calcular numeros inteiros");
+                    }
+            |
+
+            expr:e term {: parser.defineErro(eleft, eright, "Expressao sem operador."); //att 3:}
+            | 
+            MENOS term
+            |
+            MAIS term
+            |
+            MULT term
+            |
+            DIV term
+            |
+            
+                term 			
+			;
+		          
+term     ::= factor MULT term
+	        | 
+                factor:f DIV term:t
+                    {: if(t == 0)
+                       {
+                             //att 3
+                            parser.defineErro(tleft, tright, "Divisao por zero.");
+                       }
+                       RESULT = f/t;
+                    :}
+			
+	        | 
+                factor:f {: RESULT = f; :}
+			;
+
+factor    ::=  NUMBER:n {: RESULT = n; :}
+ 	      	| 
+                ABREPAR expr FECHAPAR				
+			;
+
+op_Relacional ::= 
+                MAIOR
+            | 
+                MENOR
+            |
+                MAIORIGUAL
+            |   
+                MENORIGUAL
+            | 
+                IGUALIGUAL
+            | 
+                DIF  
+            |
+                error
+                {: parser.defineErro("Operador logico desconhecido"):}
+            ;
+

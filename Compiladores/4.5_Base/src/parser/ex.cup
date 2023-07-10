@@ -1,0 +1,182 @@
+package parser;
+import java_cup.runtime.*;
+import java.util.Scanner;
+
+
+
+parser code{:
+		static int contador = 0;
+		static double somatorio = 0.0;
+                boolean usandoVariavel = false;
+
+		public void imprimeRelatorio(){
+				System.out.println("Foram reconhecidas e computadas:");
+				System.out.println(parser.contador + " expressões");
+				System.out.println("Cujo somatório foi:" + parser.somatorio);
+		}	
+:}
+
+
+/* TERMINAIS */
+terminal PTVIRG, MAIS, MENOS, DIV, MULT, MOD, PTO, IDENT;
+terminal ABRE_PARENT, FECHA_PARENT, ABRE_COLCH, FECHA_COLCH, KW_IF, KW_ELSE,  ABRE_CHAVE, FECHA_CHAVE;
+terminal Double NUMBER;
+terminal String OP_RELACIONAL;
+
+/* NÃO TERMINAIS */
+non terminal expr_list, start01;
+non terminal Double expr, term, factor, designator, expr_ptv;
+non terminal if, condicao, else;
+
+
+
+if ::= 
+	{: System.out.print("if(");:}
+        KW_IF ABRE_PARENT condicao FECHA_PARENT 
+	ABRE_CHAVE {: System.out.println("){");:}
+            expr_list 
+	FECHA_CHAVE {: System.out.println("}");:}
+        else
+       ;
+
+else ::=
+        {: System.out.println("else{");:}
+	KW_ELSE ABRE_CHAVE 
+            expr_list 
+	FECHA_CHAVE {: System.out.println("}");:};	
+        |   
+            /* vazio */
+	;		
+
+condicao ::= expr:e1 OP_RELACIONAL:op expr:e2
+	{: 
+            boolean resultado = false;
+
+            switch (op){
+		case "<":
+                    resultado = (e1 < e2);
+                    break;
+		case "<=":
+                    resultado = (e1 <= e2);						
+                    break;
+		case ">":
+                    resultado = (e1 > e2);						
+                    break;
+		case ">=":
+                    resultado = (e1 >= e2);						
+                    break;
+                case "==":
+                    resultado = (e1 == e2);
+                    break;
+		case "!=":
+                    resultado = (e1 != e2);                    
+                    break;
+		default:
+                    System.out.println("*Simbolo desconhecido");
+            }
+            System.out.print(resultado);
+            
+            
+	:};
+
+start01   ::= expr_list {: parser.imprimeRelatorio(); :};				
+
+expr_list ::= expr_list expr_ptv:e
+			{: 
+                            parser.contador++;
+                            parser.somatorio += e.doubleValue();								
+			:}				
+            |  expr_ptv:e
+			{:
+                            parser.contador++;
+                            parser.somatorio += e.doubleValue();								
+			:};
+
+expr_ptv ::= expr:e 
+		{: 
+                    System.out.println("= " + e); 
+                    RESULT = new Double(e.doubleValue());
+		:} PTVIRG;
+
+expr  	 ::=  expr:e MAIS term:t
+            	{:	
+                    RESULT = e + t; 
+		:}
+            | expr:e MENOS term:t
+		{:
+                    RESULT = e - t;
+		:}      
+            | MENOS term:t
+		{:
+                    RESULT = -t;
+		:}				
+            | term:t
+		{:
+                    RESULT = new Double(t.doubleValue());
+		:} ;
+          
+term      ::= factor:f MULT term:t
+             	{: 
+                    RESULT = f * t;  
+		:}				 1
+            | factor:f DIV term:t
+		{: 
+                    if((parser.usandoVariavel && t == 0)){
+                            System.out.println("Error - Voce informou a variavel(denomiador) igual a zero.");
+                            System.out.print("Informe o valor da variavel:");
+                            Scanner ler = new Scanner(System.in);
+                            Double num = ler.nextDouble();		
+                            t = num;
+                    }
+                    RESULT = new Double(f.doubleValue() / t.doubleValue());
+		:}
+            | factor:f MOD term:t
+                {:
+                    if(f.getClass().getName() == "Double" || t.getClass().getName() == "Double"){
+                        RESULT = new Integer(f % t);
+                    }
+                    else{
+                        RESULT = f % t;
+                    }
+                    
+                :}
+            | factor:f
+                {:
+                    RESULT = new Double(f.doubleValue());
+		:};
+
+factor    ::=  NUMBER:n 
+		    {: 
+                        RESULT = new Double(n.doubleValue());
+                    :}
+                | ABRE_PARENT expr:e FECHA_PARENT
+                    {:
+			RESULT = new Double(e.doubleValue());
+                    :}
+		| designator:d
+                    {:
+			Scanner ler = new Scanner(System.in);
+                        double num1;
+                        System.out.print("Informe o valor da variável("+ d +"):");
+                        num1 = ler.nextDouble();
+                        RESULT = num1;
+                    :} ;
+
+designator ::= designator ABRE_COLCH expr:e            {:if(e < 0){
+                                                       double num1;
+                                                       while(true){
+                                                       System.out.println("Indice Invalido");
+                                                       Scanner ler = new Scanner(System.in);
+                                                       
+                                                       System.out.print("Informe o valor do indice novamente:");
+                                                       num1 = ler.nextDouble();
+                                                       if(num1 >= 0)
+                                                            break;
+                                                       }
+                                                       RESULT = num1;
+                                                       }
+                                                       :} FECHA_COLCH 				
+
+            | designator PTO IDENT	
+			
+            | IDENT:id {: usandoVariavel = true;:};

@@ -1,5 +1,6 @@
 package scanner;
 import java_cup.runtime.Symbol;
+import parser.sym;
 
 
 %%
@@ -33,7 +34,9 @@ opMod = "%"
 
 {inteiro} { 
 	double aux = Double.parseDouble (yytext());
+        System.out.println("Scanner" + aux);
 	return new Symbol (sym.INTEIRO, new Double(aux)); 
+        
 }
 
 /**
